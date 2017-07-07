@@ -1,0 +1,66 @@
+1 我爱我家网站经纪人号码信息的抓取
+
+1.1 我爱我家涉及地区：
+北京 天津 太原 上海 南京 杭州 苏州 南昌 成都 长沙 南宁 海外(无号码)
+
+1.2 以北京为例，经纪人初始的url：
+http://bj.5i5j.com/broker/n1
+但是遍历url方式不能获取全面的经纪人信息，到n100就没有信息
+解决方法：
+1.2.1 需要获取北京的不同区域页面的链接 http://bj.5i5j.com/broker/haidian/
+1.2.2 每个区域的不同地点页面的链接 http://bj.5i5j.com/broker/qinghuadaxue/
+1.2.3 然后翻页获取经纪人的号码信息 http://bj.5i5j.com/broker/qinghe/n3
+
+1.3 或者以ID遍历经纪人信息，并没有找到规律：
+http://bj.5i5j.com/broker/8091080/
+http://hz.5i5j.com/broker/8088387/
+http://bj.5i5j.com/broker/196245/
+http://bj.5i5j.com/broker/8091070/
+http://bj.5i5j.com/broker/659345/
+http://ty.5i5j.com/broker/635259/
+
+
+2 推推99中介网站：
+可按照ID遍历，并未找到规律：
+http://beijing.tuitui99.com/broker/100001.html
+http://beijing.tuitui99.com/broker/260000.html
+http://haerbin.tuitui99.com/broker/15021.html
+http://shijiazhuang.tuitui99.com/broker/1500216.html
+北京广州深圳成都上海天津重庆长春
+苏州杭州大连郑州武汉东莞珠海沈阳石家庄西安济南昆明福州南京长沙惠州海南佛山
+无锡贵阳厦门中山榆林合肥哈尔滨淄博青岛潍坊保定太原廊坊威海
+
+
+3 赶集，输入验证码防抓，并没有写
+http://bj.ganji.com/fang_100/
+http://bj.ganji.com/fang_2000000/ 里面有房源的数据
+各个城市都覆盖了
+
+4 麦田
+4.1 只有三个城市，北京，福建，厦门
+4.2 找到总共有多少经纪人，每页十个
+http://bj.maitian.cn/bkesf/PG180
+http://fz.maitian.cn/bkesf
+http://xm.maitian.cn/bkesf/PG117
+
+5 房天下
+5.1 房天下自营 400电话
+5.2 信息汇总的
+        城市列表http://esf.xingtai.fang.com/newsecond/esfcities.aspx
+        然后区域，然后区域下面的地点，然后经纪人的电话。
+        http://esf.sh.fang.com/agenthome/
+        http://esf.ts.fang.com/agenthome/-i393-j310/
+
+6 安居客
+可以翻页 http://tianjin.anjuke.com/tycoon/p200/
+从城市列表开始找城市的链接 http://www.anjuke.com/sy-city.html
+
+7 搜狐焦点
+http://bj.esf.focus.cn/agent/
+http://xingtai.esf.focus.cn/agent/
+
+
+8 丽兹行
+
+
+9 新浪乐居网
