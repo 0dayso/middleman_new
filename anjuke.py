@@ -56,6 +56,9 @@ def crawl(middleman_type):
     city_xpath = ur"//div[@class='city_list']/a/@href"
     # 获取城市url列表
     page_obj = get(origin_url, use_proxy=False)
+    if not page_obj:
+        logging.warning('%s: Cannot get page. url: %s' % (middleman_type, origin_url))
+        return
     city_url_list = get_xpath_content(origin_url, page_obj.text, city_xpath)
     if not city_url_list:
         logging.warning('%s: No city url!' % (middleman_type))
@@ -70,6 +73,10 @@ def crawl(middleman_type):
         while page_url:
             logging.warning("%s: Get list page url, url: %s" % (middleman_type, page_url))
             page_obj = get(page_url, use_proxy=False)
+            if not page_obj:
+                logging.warning('%s: Cannot get page. url: %s' % (middleman_type, page_url))
+                page_url = None
+                continue
             page_res_list, next_page_url = parse_page(city_url, page_obj)
             if next_page_url:
                 page_url = next_page_url[0]

@@ -30,6 +30,7 @@ def parse_page(origin_url, page_obj, ):
     page_tree.make_links_absolute(origin_url)
 
     dom_xpath = ur"//dl[@class='agentinfo clearfix']"
+
     name_xpath = ur".//p[@class='font18 bold mt10']/a/text()"
     number_xpath = ur".//div[@class='tel-num']/text()"
     company_xpath = ur".//p[@class='mt10']/text()"
@@ -46,6 +47,7 @@ def parse_page(origin_url, page_obj, ):
             company = ''.join(company_list[0].strip().split())
             page_res_list.append((name, number, company))
             print name, number, company
+
     next_page_xpath = ur"//a[@id='hlk_next']/@href"
     next_page_url = page_tree.xpath(next_page_xpath)
     return page_res_list, next_page_url
@@ -120,6 +122,7 @@ def crawl(middleman_type):
                     detail_page_obj = get(detail_address_url, use_proxy=False)
                     if not detail_page_obj:
                         logging.warning('%s: Cannot get page. url: %s' % (middleman_type, detail_address_url))
+                        detail_address_url = None
                         continue
                     page_res_list, next_page_url = parse_page(city_broker_url, detail_page_obj)
                     if next_page_url:
