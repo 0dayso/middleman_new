@@ -10,7 +10,7 @@ import time
 import re
 
 from conf.settings import get_log_path
-from utils import get_xpath_content, record_res
+from lib.utils import get_xpath_content, record_res
 from getpage import get
 
 reload(sys)
@@ -45,7 +45,7 @@ def parse_page(origin_url, page_obj, ):
             number = ''.join(number_list[0].strip().split())
             company = ''.join(company_list[0].strip().split())
             page_res_list.append((name, number, company))
-            print name,number,company
+            print name, number, company
     next_page_xpath = ur"//a[@id='hlk_next']/@href"
     next_page_url = page_tree.xpath(next_page_xpath)
     return page_res_list, next_page_url
@@ -57,17 +57,20 @@ def crawl(middleman_type):
     # 获取城市url列表
     time.sleep(2)
     origin_page_obj = get(origin_url, use_proxy=False)
+    if not origin_page_obj:
+        logging.warning('%s: Cannot get page. url: %s' % (middleman_type, origin_url))
+        return
     city_url_list = get_xpath_content(origin_url, origin_page_obj.text, city_xpath)
     if not city_url_list:
         logging.warning('%s: No city url.' % (middleman_type))
         return None
 
-    #city_url_list = ["http://bj.fang.com/"]
+    # city_url_list = ["http://bj.fang.com/"]
     area_xpath = ur"//div[@class='qxName']/a[position()>1]/@href"
     detail_xpath = ur"//p[@id='shangQuancontain']/a[position()>1]/@href"
 
     for city_url in city_url_list:
-        #print 'city',city_url
+        # print 'city',city_url
         logging.warning("%s: City page url, url: %s" % (middleman_type, city_url))
         if city_url == "http://bj.fang.com/":
             city_broker_url = "http://esf.fang.com"
@@ -84,32 +87,40 @@ def crawl(middleman_type):
         logging.warning("%s: Get city page url, url: %s" % (middleman_type, city_broker_url_first))
         time.sleep(2)
         city_broker_page_obj = get(city_broker_url_first, use_proxy=False)
-
+        if not city_broker_page_obj:
+            logging.warning('%s: Cannot get page. url: %s' % (middleman_type, city_broker_url_first))
+            continue
         area_url_list = get_xpath_content(city_broker_url, city_broker_page_obj.text, area_xpath)
         if not area_url_list:
             logging.warning('%s: No area broker url, info: %s' % (middleman_type, city_broker_url_first))
             continue
 
         # 获取具体地点的url列表
-        #area_url_list = ["http://esf.fang.com/agenthome-a03/-i31-j310/"]
+        # area_url_list = ["http://esf.fang.com/agenthome-a03/-i31-j310/"]
         for area_url in area_url_list:
-            #print 'area_url', area_url
+            # print 'area_url', area_url
             logging.warning("%s: Get area page url, url: %s" % (middleman_type, area_url))
             time.sleep(2)
             area_page_obj = get(area_url, use_proxy=False)
+            if not area_page_obj:
+                logging.warning('%s: Cannot get page. url: %s' % (middleman_type, area_url))
+                continue
             detail_address_broker_list = get_xpath_content(city_broker_url, area_page_obj.text, detail_xpath)
             if not detail_address_broker_list:
                 logging.warning('%s: No detail address broker url, info: %s' % (middleman_type, area_url))
                 continue
 
             # # 记录
-            #detail_address_broker_list = ['http://esf.fang.com/agenthome-a03-b012384/-i31-j310/']
+            # detail_address_broker_list = ['http://esf.fang.com/agenthome-a03-b012384/-i31-j310/']
             for detail_address_url in detail_address_broker_list:
-                #print 'detail_url', detail_address_url
+                # print 'detail_url', detail_address_url
                 while detail_address_url:
                     logging.warning("%s: Get list page url, url: %s" % (middleman_type, detail_address_url))
                     time.sleep(2)
                     detail_page_obj = get(detail_address_url, use_proxy=False)
+                    if not detail_page_obj:
+                        logging.warning('%s: Cannot get page. url: %s' % (middleman_type, detail_address_url))
+                        continue
                     page_res_list, next_page_url = parse_page(city_broker_url, detail_page_obj)
                     if next_page_url:
                         detail_address_url = next_page_url[0]
@@ -119,7 +130,8 @@ def crawl(middleman_type):
                     res = record_res(page_res_list, middleman_type)
                     if not res:
                         logging.error("%s: Cannot record res, url: %s" % (middleman_type, detail_address_url))
-                    #exit()
+                        # exit()
+
 
 if __name__ == '__main__':
     middleman_type = 'fangtianxia'

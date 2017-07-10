@@ -10,7 +10,7 @@ import time
 import re
 
 from conf.settings import get_log_path
-from utils import get_xpath_content, record_res
+from lib.utils import get_xpath_content, record_res
 from getpage import get
 
 reload(sys)

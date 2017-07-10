@@ -5,7 +5,6 @@
 
 import os
 import time
-import logging
 
 debug = True
 
