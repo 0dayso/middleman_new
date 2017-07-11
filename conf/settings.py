@@ -6,7 +6,7 @@
 import os
 import time
 
-debug = True
+debug = False
 
 format_date = time.strftime('%Y%m%d', time.localtime())
 base_path = os.path.abspath('.')
@@ -34,13 +34,6 @@ if not debug:
                      'wujian@sogou-inc.com,' \
                      'lichenxiao@sogou-inc.com,'
 
-    def get_data_path(middleman_type):
-        current_data_path = os.path.join(base_data_path, format_date)
-        if not os.path.exists(current_data_path):
-            os.makedirs(current_data_path)
-        data_path = os.path.join(current_data_path, middleman_type + '.txt')
-        return data_path
-
 
     def get_log_path(middleman_type):
         current_log_path = os.path.join(base_log_path, format_date)
@@ -49,11 +42,6 @@ if not debug:
         log_path = os.path.join(current_log_path, middleman_type + '.log')
         return log_path
 
-    def get_result_path():
-        current_result_path = os.path.join(base_result_path, format_date)
-        if not os.path.exists(current_result_path):
-            os.makedirs(current_result_path)
-        return current_result_path
 
 else:
     db_conf = {'DB_ip': '10.134.99.212',
@@ -62,19 +50,16 @@ else:
                'DB_database': 'telephone_blacklist', }
     email_list_str = 'lichenxiao@sogou-inc.com'
 
-    def get_data_path(middleman_type):
-        data_path = os.path.join(base_data_path, middleman_type + '.txt')
-        return data_path
-
 
     def get_log_path(middleman_type):
         log_path = os.path.join(base_log_path, middleman_type + '.log')
         return log_path
 
-    def get_result_path():
-        return base_result_path
+
+def get_data_path(middleman_type):
+    data_path = os.path.join(base_data_path, middleman_type + '.txt')
+    return data_path
 
 
-
-
-
+def get_result_path():
+    return base_result_path
