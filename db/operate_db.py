@@ -8,7 +8,7 @@ import time
 import logging
 
 import MySQLdb
-from conf.settings import db_conf, get_log_path
+from conf.settings import db_conf
 
 
 def get_now_time():
@@ -58,11 +58,6 @@ def insert(conn, number, source, tag, info=''):
     :param info: string, info字段，一般是个json结构
     :return: boolen, 更新结果
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     try:
         # info = '{"partner_id":"5029","title":"","icon":""}'
         # tag = u'顺丰速运'
@@ -95,11 +90,6 @@ def get_insert_sql(number, source, tag, info=''):
     :param info: string, info字段，一般是个json结构
     :return: string, insert的sql语句
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     try:
         # info = '{"partner_id":"5029","title":"","icon":""}'
         # tag = u'顺丰速运'
@@ -122,11 +112,6 @@ def delete_one(conn, number, source):
     :param source:
     :return: boolen, 更新结果
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     cur = conn.cursor()
     try:
         db_num = str(int(number) % 500)
@@ -149,11 +134,6 @@ def delete_all(source):
     :param source: int,数据源
     :return: boolen, 更新结果
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     try:
         conn = MySQLdb.connect(db_conf['DB_ip'], db_conf['DB_user'], db_conf['DB_pwd'], port=3306,
                                charset="utf8")
@@ -185,11 +165,6 @@ def update_one(conn, source, info, number):
     :param number: string, 可指定，也可不指定，若指定则更新这个数据源特定号码的info字段
     :return: boolen, 更新结果
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     cur = conn.cursor()
     try:
         db_num = str(int(number) % 500)
@@ -212,11 +187,6 @@ def update_all(source, info):
     :param info: string, info字段
     :return: boolen, 更新结果
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     try:
         conn = MySQLdb.connect(db_conf['DB_ip'], db_conf['DB_user'], db_conf['DB_pwd'], port=3306,
                                charset="utf8")
@@ -250,11 +220,6 @@ def insert_one(number, source, tag, info=''):
     :param info: string, info字段，一般是个json结构
     :return: boolen, 更新结果
     """
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                        datefmt='%a, %d %b %Y %H:%M:%S',
-                        filename=os.path.join(get_log_path(source), 'log.log'),
-                        filemode='a')
     try:
         conn = MySQLdb.connect(db_conf['DB_ip'], db_conf['DB_user'], db_conf['DB_pwd'], port=3306,
                                charset="utf8")
