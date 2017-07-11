@@ -52,7 +52,7 @@ def record_res(page_res_list, middleman_type):
         return False
 
 
-def send_email(receiver, subject, content):
+def send_email(receiver, subject, content, content_type):
     """
     发送邮件
     :param receiver:string 逗号分隔的，邮件的接受者
@@ -60,7 +60,7 @@ def send_email(receiver, subject, content):
     :param content: string 邮件的内容
     :return:
     """
-    msg = MIMEText(content, type)
+    msg = MIMEText(content, content_type)
     msg.set_charset('utf8')
     sender = smtp['user'] + r"@sogou-inc.com"
     receiver_list = list(receiver)
@@ -68,16 +68,17 @@ def send_email(receiver, subject, content):
     msg['From'] = sender
     msg['Subject'] = subject
 
-    try:
-        smtpObj = smtplib.SMTP()
-        smtpObj.connect(smtp['host'], 25)  # 25 为 SMTP 端口号
-        smtpObj.login(smtp['user'], smtp['password'])
-        smtpObj.sendmail(sender, receiver_list, msg.as_string())
-    except Exception, e:
-        err = "Send email from %s to %s failed!\n Exception: %s!" \
-              % (sender, receiver, e)
-        logging.error(err)
+    # try:
+    smtpObj = smtplib.SMTP()
+    smtpObj.connect(smtp['host'], 25)  # 25 为 SMTP 端口号
+    smtpObj.login(smtp['user'], smtp['password'])
+    smtpObj.sendmail(sender, receiver_list, msg.as_string())
+    # except Exception, e:
+    #     err = "Send email from %s to %s failed!\n Exception: %s!" \
+    #           % (sender, receiver, e)
+    #     logging.error(err)
+
 
 
 if __name__ == '__main__':
-    send_email(email_list_str, 'nihao', 'lalala')
+    send_email(email_list_str, 'nihao', 'lalala','plain')

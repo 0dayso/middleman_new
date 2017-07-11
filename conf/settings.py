@@ -28,11 +28,13 @@ if not debug:
                'DB_user': 'sogouhaoma',
                'DB_pwd': 'sogouhaoma@2012',
                'DB_database': 'mobile_haoma', }
+
     email_list_str = 'liushuai207839@sogou-inc.com,' \
                      'shubaihan@sogou-inc.com,' \
                      'yiyating@sogou-inc.com,' \
                      'liangying@sogou-inc.com,' \
-                     'wujian@sogou-inc.com,' \
+                     'fangyue@sogou-inc.com,' \
+                     'jiaowenjun@sogou-inc.com,' \
                      'lichenxiao@sogou-inc.com,'
 
 
@@ -49,7 +51,8 @@ else:
                'DB_user': 'test',
                'DB_pwd': 'test',
                'DB_database': 'telephone_blacklist', }
-    email_list_str = 'lichenxiao@sogou-inc.com'
+
+    email_list_str = 'lichenxiao@sogou-inc.com',
 
 
     def get_log_path(middleman_type):
