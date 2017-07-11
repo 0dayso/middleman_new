@@ -1,18 +1,27 @@
 #!/usr/bin/env bash
+/usr/bin/python ./fangtianxia.py &&
+/usr/bin/python ./maitian.py &&
+/usr/bin/python ./sohujiaodian.py &&
+/usr/bin/python ./tuitui99.py &&
+/usr/bin/python ./woaiwojia.py &&
+/usr/bin/python ./anjuke.py &&
 
-python ./fangtianxia.py &&
-python ./maitian.py &&
-python ./sohujiaodian.py &&
-python ./tuitui99.py &&
-python ./woaiwojia.py &&
-python ./anjuke.py &&
-
-for file in ./data/*
+for file in `ls data`
 do
-    if test -f $file
+    if test -f ./data/$file
     then
-        sort $file | uniq > ./result/u_{$file}
+        echo 'sort ./data/'$file'|uniq > ./result/ u_'${file}
+        sort ./data/$file | uniq > ./result/u_${file}
     fi
 done
 
-python ./update_db.py
+ymd=$(date +%Y%m%d) &&
+if [ ! -d ./past/$ymd ]
+then
+    echo 'mkdir ./past/'$ymd
+    mkdir ./past/$ymd
+fi
+
+echo 'mv ./result/* ./past/'$ymd &&
+mv ./result/* ./past/$ymd
+rm -rf ./data/*
