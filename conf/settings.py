@@ -6,7 +6,8 @@
 import os
 import time
 
-debug = False
+#debug = False
+debug = True
 
 format_date = time.strftime('%Y%m%d', time.localtime())
 base_path = os.path.abspath('.')

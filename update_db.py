@@ -5,7 +5,7 @@
 
 import os
 import logging
-from conf.settings import get_result_path
+from conf.settings import get_result_path, get_log_path
 from db.process_number import re_process_number
 from db.operate_db import insert, connect_to_db, close_connection
 
@@ -14,13 +14,20 @@ source_to_name_dict = {
     'maitian': 172,
     'souhujiaodian': 173,
     'anjuke': 174,
-    'tuitui99': 175,
-    'fangtianxia': 176}
+    'tuitui99': 175}
+    #'fangtianxia': 176}
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                    datefmt='%a, %d %b %Y %H:%M:%S',
+                    filename=get_log_path(middleman),
+                    filemode='a')
 
 if __name__ == "__main__":
+    conn = connect_to_db()
     for basedir, subdirs, filenames in os.walk(get_result_path()):
         for filename in filenames:
-            source = source_to_name_dict[os.path.splitext(filename)[0]]
+            source = source_to_name_dict[os.path.splitext(filename)[0].lstrip('u_')]
             with open(os.path.join(basedir, filename), 'rb') as f_in:
                 for line in f_in:
                     line = line.lstrip('\n')
