@@ -54,20 +54,20 @@ def parse_page(origin_url, page_obj, ):
 
 
 def crawl(middleman_type):
-    # origin_url = "http://fang.com/SoufunFamily.htm"
-    # city_xpath = "//div[@class='letterSelt']/div[@id='c01']//a/@href"
-    # # 获取城市url列表
-    # time.sleep(2)
-    # origin_page_obj = get(origin_url, use_proxy=False)
-    # if not origin_page_obj:
-    #     logging.warning('%s: Cannot get page. url: %s' % (middleman_type, origin_url))
-    #     return
-    # city_url_list = get_xpath_content(origin_url, origin_page_obj.text, city_xpath)
-    # if not city_url_list:
-    #     logging.warning('%s: No city url.' % (middleman_type))
-    #     return None
+    origin_url = "http://fang.com/SoufunFamily.htm"
+    city_xpath = "//div[@class='letterSelt']/div[@id='c01']//a/@href"
+    # 获取城市url列表
+    time.sleep(2)
+    origin_page_obj = get(origin_url, use_proxy=False)
+    if not origin_page_obj:
+        logging.warning('%s: Cannot get page. url: %s' % (middleman_type, origin_url))
+        return
+    city_url_list = get_xpath_content(origin_url, origin_page_obj.text, city_xpath)
+    if not city_url_list:
+        logging.warning('%s: No city url.' % (middleman_type))
+        return None
 
-    city_url_list = ["http://bj.fang.com/"]
+    #city_url_list = ["http://bj.fang.com/"]
     area_xpath = ur"//div[@class='qxName']/a[position()>1]/@href"
     detail_xpath = ur"//p[@id='shangQuancontain']/a[position()>1]/@href"
 
