@@ -5,7 +5,7 @@
 
 import os
 import logging
-from conf.settings import get_data_path
+from conf.settings import get_result_path
 from db.process_number import re_process_number
 from db.operate_db import insert, connect_to_db, close_connection
 
@@ -18,7 +18,7 @@ source_to_name_dict = {
     'fangtianxia': 176}
 
 if __name__ == "__main__":
-    for basedir, subdirs, filenames in os.walk(get_data_path()):
+    for basedir, subdirs, filenames in os.walk(get_result_path()):
         for filename in filenames:
             source = source_to_name_dict[os.path.splitext(filename)[0]]
             with open(os.path.join(basedir, filename), 'rb') as f_in:

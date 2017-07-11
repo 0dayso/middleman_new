@@ -12,6 +12,7 @@ format_date = time.strftime('%Y%m%d', time.localtime())
 base_path = os.path.abspath('.')
 base_data_path = os.path.join(base_path, 'data')
 base_log_path = os.path.join(base_path, 'log')
+base_result_path = os.path.join(base_path, 'result')
 
 smtp = {
     'host': 'mail.sogou-inc.com',
@@ -48,6 +49,12 @@ if not debug:
         log_path = os.path.join(current_log_path, middleman_type + '.log')
         return log_path
 
+    def get_result_path():
+        current_result_path = os.path.join(base_result_path, format_date)
+        if not os.path.exists(current_result_path):
+            os.makedirs(current_result_path)
+        return current_result_path
+
 else:
     db_conf = {'DB_ip': '10.134.99.212',
                'DB_user': 'test',
@@ -63,6 +70,9 @@ else:
     def get_log_path(middleman_type):
         log_path = os.path.join(base_log_path, middleman_type + '.log')
         return log_path
+
+    def get_result_path():
+        return base_result_path
 
 
 

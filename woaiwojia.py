@@ -60,6 +60,9 @@ def crawl(middleman_type):
     # 获取城市url列表
     time.sleep(2)
     origin_page_obj = get(origin_url, use_proxy=False)
+    if not origin_page_obj:
+        logging.warning('%s: Cannot get page. url: %s' % (middleman_type, origin_url))
+        return
     city_url_list = get_xpath_content(origin_url, origin_page_obj.text, city_xpath)
     if not city_url_list:
         logging.warning('%s: No city url.' % (middleman_type))
@@ -76,6 +79,9 @@ def crawl(middleman_type):
         logging.warning("%s: Get city page url, url: %s" % (middleman_type, city_broker_url))
         time.sleep(2)
         city_broker_page_obj = get(city_broker_url, use_proxy=False)
+        if not city_broker_page_obj:
+            logging.warning('%s: Cannot get page. url: %s' % (middleman_type, city_broker_url))
+            continue
 
         if "tj.5i5j" in city_url:
             area_xpath = ur"//ul[@class='search-quyu']/li[1]/a[position()>1]/@href"
@@ -95,6 +101,9 @@ def crawl(middleman_type):
             logging.warning("%s: Get area page url, url: %s" % (middleman_type, area_url))
             time.sleep(2)
             area_page_obj = get(area_url, use_proxy=False)
+            if not area_page_obj:
+                logging.warning('%s: Cannot get page. url: %s' % (middleman_type, area_url))
+                continue
             detail_address_broker_list = get_xpath_content(city_url, area_page_obj.text, detail_xpath)
             if not detail_address_broker_list:
                 logging.warning('%s: No detail address broker url, info: %s' % (middleman_type, area_url))
@@ -107,6 +116,10 @@ def crawl(middleman_type):
                     logging.warning("%s: Get list page url, url: %s" % (middleman_type, detail_address_url))
                     time.sleep(2)
                     detail_page_obj = get(detail_address_url, use_proxy=False)
+                    if not detail_page_obj:
+                        logging.warning('%s: Cannot get page. url: %s' % (middleman_type, detail_address_url))
+                        detail_address_url = None
+                        continue
                     page_res_list, next_page_url = parse_page(city_url, detail_page_obj)
                     if next_page_url:
                         detail_address_url = next_page_url[0]

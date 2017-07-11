@@ -60,6 +60,10 @@ def crawl(middleman_type):
         while page_url:
             logging.warning("%s: Get list page url, url: %s" % (middleman_type, page_url))
             page_obj = get(page_url, use_proxy=False)
+            if not page_obj:
+                logging.warning('%s: Cannot get page. url: %s' % (middleman_type, page_url))
+                page_url = None
+                continue
             page_res_list, next_page_url = parse_page(city_url, page_obj)
             if next_page_url:
                 page_url = next_page_url[0]
