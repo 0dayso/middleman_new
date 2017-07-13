@@ -5,30 +5,31 @@
 
 import os
 import logging
+import json
 from conf.settings import get_result_path, get_log_path, email_list_str
 from db.process_number import re_process_number
 from db.operate_db import insert, connect_to_db, close_connection, delete_all
 from lib.utils import send_email
 
-# middleman_list = ['woaiwojia','maitian','souhujiaodian','anjuke','tuitui99','fangtianxia']
-middleman_list = ['woaiwojia', 'maitian', 'sohujiaodian', 'anjuke', 'tuitui99']
-middleman_cn_list = ['我爱我家', '麦田', '搜狐焦点', '安居客', '推推99']
+middleman_list = ['woaiwojia','maitian','sohujiaodian','anjuke','tuitui99','fangtianxia']
+#middleman_list = ['woaiwojia', 'maitian', 'sohujiaodian', 'anjuke', 'tuitui99']
+middleman_cn_list = ['我爱我家', '麦田', '搜狐焦点', '安居客', '推推99', '房天下']
 
 middleman_to_source_dict = {
     'woaiwojia': 171,
     'maitian': 172,
     'sohujiaodian': 173,
     'anjuke': 174,
-    'tuitui99': 175}
-# 'fangtianxia': 176}
+    'tuitui99': 175,
+    'fangtianxia': 176}
 
 middleman_count_dict = {
     'woaiwojia': 0,
     'maitian': 0,
     'sohujiaodian': 0,
     'anjuke': 0,
-    'tuitui99': 0}
-# 'fangtianxia': 0}
+    'tuitui99': 0,
+    'fangtianxia': 0}
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -44,21 +45,29 @@ def update_db():
             middleman = os.path.splitext(filename)[0].lstrip('u_')
             source = middleman_to_source_dict[middleman]
             delete_all(source)
+            tag = '房产中介'
             with open(os.path.join(basedir, filename), 'rb') as f_in:
                 for line in f_in:
-                    line = line.lstrip('\n')
+                    line = line.lstrip('\n\r')
                     if not line:
                         continue
                     line_list = line.split('\t')
                     try:
-                        number = line_list[1]
-                        company = line_list[2]
+                        name = line_list[0].strip()
+                        number = line_list[1].strip()
+                        company = line_list[2].strip()
                     except IndexError:
                         continue
                     number_list = re_process_number(number)
                     for number_type, number, extension in number_list:
                         if not number_type == 'wrong':
-                            res = insert(conn, number=number, source=source, tag=company)
+                            info_dict = {}
+                            if name:
+                                info_dict['name'] = name
+                            if company:
+                                info_dict['company'] = company
+                            info = json.dumps(info_dict, ensure_ascii=False,encoding='utf-8')
+                            res = insert(conn, number=number, source=source, tag=tag, info=info)
                             if not res:
                                 for i in range(0, 3):
                                     conn = connect_to_db()
@@ -103,5 +112,5 @@ def generate_email_str():
 
 
 if __name__ == "__main__":
-    # update_db()
+    update_db()
     send_email(email_list_str, '中介爬虫结果统计', generate_email_str(), 'html')

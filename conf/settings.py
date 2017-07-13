@@ -6,8 +6,8 @@
 import os
 import time
 
-#debug = False
-debug = True
+debug = False
+#debug = True
 
 format_date = time.strftime('%Y%m%d', time.localtime())
 base_path = os.path.abspath('.')
@@ -29,14 +29,15 @@ if not debug:
                'DB_pwd': 'sogouhaoma@2012',
                'DB_database': 'mobile_haoma', }
 
-    email_list_str = 'liushuai207839@sogou-inc.com,' \
-                     'shubaihan@sogou-inc.com,' \
-                     'yiyating@sogou-inc.com,' \
-                     'liangying@sogou-inc.com,' \
-                     'fangyue@sogou-inc.com,' \
-                     'jiaowenjun@sogou-inc.com,' \
-                     'lichenxiao@sogou-inc.com,'
+    #email_list_str = 'liushuai207839@sogou-inc.com,' \
+    #                 'shubaihan@sogou-inc.com,' \
+    #                 'yiyating@sogou-inc.com,' \
+    #                 'liangying@sogou-inc.com,' \
+    #                 'fangyue@sogou-inc.com,' \
+    #                 'jiaowenjun@sogou-inc.com,' \
+    #                 'lichenxiao@sogou-inc.com,'
 
+    email_list_str = 'lichenxiao@sogou-inc.com',
 
     def get_log_path(middleman_type):
         current_log_path = os.path.join(base_log_path, format_date)
