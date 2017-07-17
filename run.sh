@@ -24,8 +24,8 @@ then
     mkdir ./past/$ymd
 fi
 
-#/usr/bin/python ./update_db.py
+usr/bin/python ./update_db.py &&
 
-#echo 'mv ./result/* ./past/'$ymd &&
-#mv ./result/* ./past/$ymd
+echo "mv ./result/* ./past/$ymd" &&
+mv ./result/* ./past/$ymd/
 #rm -rf ./data/*
