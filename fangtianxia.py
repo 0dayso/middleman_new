@@ -46,7 +46,7 @@ def parse_page(origin_url, page_obj, ):
             number = ''.join(number_list[0].strip().split())
             company = ''.join(company_list[0].strip().split())
             page_res_list.append((name, number, company))
-            print name, number, company
+            #print name, number, company
 
     next_page_xpath = ur"//a[@id='hlk_next']/@href"
     next_page_url = page_tree.xpath(next_page_xpath)

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#/usr/bin/python ./fangtianxia.py &&
-#/usr/bin/python ./maitian.py &&
-#/usr/bin/python ./sohujiaodian.py &&
-#/usr/bin/python ./tuitui99.py &&
-#/usr/bin/python ./woaiwojia.py &&
-#/usr/bin/python ./anjuke.py &&
+/usr/bin/python ./fangtianxia.py &&
+/usr/bin/python ./maitian.py &&
+/usr/bin/python ./sohujiaodian.py &&
+/usr/bin/python ./tuitui99.py &&
+/usr/bin/python ./woaiwojia.py &&
+/usr/bin/python ./anjuke.py &&
 
 for file in `ls data`
 do
@@ -24,7 +24,7 @@ then
     mkdir ./past/$ymd
 fi
 
-usr/bin/python ./update_db.py &&
+/usr/bin/python ./update_db.py &&
 
 echo "mv ./result/* ./past/$ymd" &&
 mv ./result/* ./past/$ymd/
